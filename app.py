@@ -1,40 +1,60 @@
-base_price = 15
-age = 21
-seat_type = 'Gold'
-show_time = 'Evening'
-if age > 17:
-    print('User is eligible to book a ticket')
-if age >= 21:
-    print('User is eligible for Evening shows')
-else:
-    print('User is not eligible for Evening shows')
-is_member = False
-is_weekend = False
-discount = 0
-if is_member and age >= 21:
-    discount = 3
-    print('User qualifies for membership discount')
-else:
-    print('User does not qualify for membership discount')
-print('Discount:', discount)
-extra_charges = 0
-if is_weekend or show_time == 'Evening':
-    extra_charges = 2
-    print('Extra Charges will be applied')
-else:
-    print('No extra charges will be applied')
-print('Extra charges:', extra_charges)
-if age >= 21 or (age >= 18 and (show_time != 'Evening' or is_member)):
-    print('Ticket booking condition satisfied')
-    service_charges = 0
-    if seat_type == 'Premium':
-        service_charges = 5
-    elif:
-        seat_type == 'Gold':
-        service_charges = 3
-    else:
-        service_charges = 1
-        print('Service charges:', service_charges)
-else:
-    print('Ticket booking failed due to restrictions')
-    print('Ticket booking condition satisfied')
+
+def outer_parlor():
+    ice_cream = "Vanilla"
+
+    def inner_scoop():
+        ice_cream = "Strawberry"
+        print("Inside the inner scoop (Local):", ice_cream)
+
+    inner_scoop()
+    print("Inside the outer parlor (Enclosing):", ice_cream)
+
+
+outer_parlor()
+
+
+def outer_func():
+    msg = 'Hello there!'
+    res = ''
+
+    def inner_func():
+        nonlocal res
+        res = 'How are you?'
+        print(msg)
+    inner_func()
+    print(res)
+
+
+outer_func()
+
+my_var = 100
+
+
+def show_var():
+    print(my_var)
+
+
+show_var()
+print(my_var)
+my_var_1 = 7
+
+
+def show_vars():
+    global my_var_2
+    my_var_2 = 10
+    print(my_var_1)
+    print(my_var_2)
+
+
+show_vars()
+
+my_var = 10
+
+
+def change_var():
+    global my_var
+    my_var = 20
+
+
+change_var()
+print(my_var)
