@@ -1,40 +1,104 @@
-base_price = 15
-age = 21
-seat_type = 'Gold'
-show_time = 'Evening'
-if age > 17:
-    print('User is eligible to book a ticket')
-if age >= 21:
-    print('User is eligible for Evening shows')
-else:
-    print('User is not eligible for Evening shows')
-is_member = False
-is_weekend = False
-discount = 0
-if is_member and age >= 21:
-    discount = 3
-    print('User qualifies for membership discount')
-else:
-    print('User does not qualify for membership discount')
-print('Discount:', discount)
-extra_charges = 0
-if is_weekend or show_time == 'Evening':
-    extra_charges = 2
-    print('Extra Charges will be applied')
-else:
-    print('No extra charges will be applied')
-print('Extra charges:', extra_charges)
-if age >= 21 or (age >= 18 and (show_time != 'Evening' or is_member)):
-    print('Ticket booking condition satisfied')
-    service_charges = 0
-    if seat_type == 'Premium':
-        service_charges = 5
-    elif:
-        seat_type == 'Gold':
-        service_charges = 3
-    else:
-        service_charges = 1
-        print('Service charges:', service_charges)
-else:
-    print('Ticket booking failed due to restrictions')
-    print('Ticket booking condition satisfied')
+# Buiding an Email Simulator in freecodecamp
+import datetime
+
+
+class Email:
+    def __init__(self, sender, receiver, subject, body):
+        self.sender = sender
+        self.receiver = receiver
+        self.subject = subject
+        self.body = body
+        self.timestamp = datetime.datetime.now()
+        self.read = False
+
+    def mark_as_read(self):
+        self.read = True
+
+    def display_full_email(self):
+        self.mark_as_read()
+        print('\n--- Email ---')
+        print(f'From: {self.sender.name}')
+        print(f'To: {self.receiver.name}')
+        print(f'Subject: {self.subject}')
+        print(f"Received: {self.timestamp.strftime('%Y-%m-%d %H:%M')}")
+        print(f'Body: {self.body}')
+        print('------------\n')
+
+    def __str__(self):
+        status = 'Read' if self.read else 'Unread'
+        return f"[{status}] From: {self.sender.name} | Subject: {self.subject} | Time: {self.timestamp.strftime('%Y-%m-%d %H:%M')}"
+
+
+class User:
+    def __init__(self, name):
+        self.name = name
+        self.inbox = Inbox()
+
+    def send_email(self, receiver, subject, body):
+        email = Email(sender=self, receiver=receiver,
+                      subject=subject, body=body)
+        receiver.inbox.receive_email(email)
+        print(f'Email sent from {self.name} to {receiver.name}!\n')
+
+    def check_inbox(self):
+        print(f"\n{self.name}'s Inbox:")
+        self.inbox.list_emails()
+
+    def read_email(self, index):
+        self.inbox.read_email(index)
+
+    def delete_email(self, index):
+        self.inbox.delete_email(index)
+
+
+class Inbox:
+    def __init__(self):
+        self.emails = []
+
+    def receive_email(self, email):
+        self.emails.append(email)
+
+    def list_emails(self):
+        if not self.emails:
+            print('Your inbox is empty.\n')
+            return
+        print('\nYour Emails:')
+        for i, email in enumerate(self.emails, start=1):
+            print(f'{i}. {email}')
+
+    def read_email(self, index):
+        if not self.emails:
+            print('Inbox is empty.\n')
+            return
+        actual_index = index - 1
+        if actual_index < 0 or actual_index >= len(self.emails):
+            print('Invalid email number.\n')
+            return
+        self.emails[actual_index].display_full_email()
+
+    def delete_email(self, index):
+        if not self.emails:
+            print('Inbox is empty.\n')
+            return
+        actual_index = index - 1
+        if actual_index < 0 or actual_index >= len(self.emails):
+            print('Invalid email number.\n')
+            return
+        del self.emails[actual_index]
+        print('Email deleted.\n')
+
+
+def main():
+    tory = User('Tory')
+    ramy = User('Ramy')
+
+    tory.send_email(ramy, 'Hello', 'Hi Ramy, just saying hello!')
+    ramy.send_email(tory, 'Re: Hello', 'Hi Tory, hope you are fine.')
+    ramy.check_inbox()
+    ramy.read_email(1)
+    ramy.delete_email(1)
+    ramy.check_inbox()
+
+
+if __name__ == '__main__':
+    main()
